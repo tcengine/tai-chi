@@ -1,2 +1,2 @@
-# tai-chi
-A prototype for unpackai new modules,
+# Tai-Chi Engine
+> Powerful deep learning for civilians
