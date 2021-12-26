@@ -1,7 +1,7 @@
 __all__ = ["ImageConvEncoder"]
 
 from tai_chi_tuna.front.typer import LIST
-from tai_chi_tuna.flow.quantify import BATCH_SIZE
+from tai_chi_tuna.flow.to_quantify import BATCH_SIZE
 
 from .basic import EntryModel, Empty
 
