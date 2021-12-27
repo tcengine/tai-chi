@@ -6,11 +6,15 @@ from tai_chi_tuna.front.typer import STR, INT, BOOL, LIST
 
 from tai_chi_tuna.flow.to_quantify import (
     BATCH_SIZE, SEQUENCE_SIZE, IMAGE_SIZE)
+from tai_chi_engine.utils import clean_name
+
 from forgebox.category import Category
 from typing import List
 import numpy as np
 import pandas as pd
 import torch
+import json
+from pathlib import Path
 
 
 class Quantify:
@@ -31,6 +35,27 @@ class Quantify:
     def __call__(self, list_of_items):
         return list(list_of_items)
 
+    @staticmethod
+    def quantify_dir(project: Path) -> Path:
+        """
+        Quantify directory under project directory
+        """
+        project = Path(project)
+        quantify = project/'quantify'
+        if not quantify.exists():
+            quantify.mkdir(exist_ok=True, parents=True)
+        return quantify
+
+    @staticmethod
+    def directory(project: Path, src: str) -> Path:
+        """
+        The directory to save the quantify column
+        """
+        save_dir = Quantify.quantify_dir(project)/clean_name(src)
+        if not save_dir.exists():
+            save_dir.mkdir(exist_ok=True, parents=True)
+        return save_dir
+
     def adapt(self, column):
         """
         A function to let the data processing
@@ -43,6 +68,13 @@ class Quantify:
             return self.name
         else:
             return self.__class__.__name__
+
+    def save(self, project: Path, src: str):
+        pass
+
+    @classmethod
+    def load(cls, project: Path, src: str):
+        return cls()
 
 
 class QuantifyImage(Quantify):
@@ -78,6 +110,8 @@ class QuantifyImage(Quantify):
             tfm.ToTensor(),
             tfm.Normalize(mean=mean_, std=std_),
         ])
+        self.mean_ = mean_
+        self.std_ = std_
 
         self.shape = (BATCH_SIZE, 3, IMAGE_SIZE, IMAGE_SIZE)
 
@@ -87,6 +121,22 @@ class QuantifyImage(Quantify):
     def __call__(self, list_of_image):
         return torch.stack(list(
             self.transform(img) for img in list_of_image))
+
+    def save(self, project: Path, src: str):
+        save_dir = self.directory(project, src)
+        with open(save_dir/"config.json", 'w') as f:
+            f.write(json.dumps({
+                "mean": self.mean_,
+                "std": self.std_,
+            }, indent=2))
+
+    @classmethod
+    def load(cls, project: Path, src: str):
+        save_dir = cls.directory(project, src)
+        with open(save_dir/"config.json", 'r') as f:
+            config = json.loads(f.read())
+        return cls(mean_=config["mean"], std_=config["std"])
+        
 
 
 class QuantifyText(Quantify):
@@ -98,9 +148,12 @@ class QuantifyText(Quantify):
             "do_not_pad",
             "max_length",
             "longest"], default="max_length") = "max_length",
-        return_token_type_ids: BOOL(name="Token Type IDs", default=True) = True,
-        return_attention_mask: BOOL(name="Attention Mask", default=True) = True,
-        return_offsets_mapping: BOOL(name="Offset Mapping", default=False) = False,
+        return_token_type_ids: BOOL(
+            name="Token Type IDs", default=True) = True,
+        return_attention_mask: BOOL(
+            name="Attention Mask", default=True) = True,
+        return_offsets_mapping: BOOL(
+            name="Offset Mapping", default=False) = False,
     ):
         self.pretrained = pretrained
         self.max_length = max_length
@@ -133,6 +186,35 @@ class QuantifyText(Quantify):
             return_tensors=self.return_tensors,
             return_offsets_mapping=self.return_offsets_mapping,
         )
+
+    def save(self, project: Path, src: str) -> None:
+        save_dir = self.directory(project, src)
+        with open(save_dir/"config.json", 'w') as f:
+            f.write(json.dumps({
+                "pretrained": self.pretrained,
+                "max_length": self.max_length,
+                "padding": self.padding,
+                "return_token_type_ids": self.return_token_type_ids,
+                "return_attention_mask": self.return_attention_mask,
+                "return_offsets_mapping": self.return_offsets_mapping,
+            }, indent=2))
+
+    @classmethod
+    def load(cls, project: Path, src: str):
+        save_dir = cls.directory(project, src)
+        with open(save_dir/"config.json", 'r') as f:
+            config = json.loads(f.read())
+        obj = cls(
+            pretrained=config["pretrained"],
+            max_length=config["max_length"],
+            padding=config["padding"],
+            return_token_type_ids=config["return_token_type_ids"],
+            return_attention_mask=config["return_attention_mask"],
+            return_offsets_mapping=config["return_offsets_mapping"],
+        )
+        # load the tokenizer
+        obj.adapt(None)
+        return obj
 
 
 class QuantifyCategory(Quantify):
@@ -174,6 +256,24 @@ class QuantifyCategory(Quantify):
     def __call__(self, list_of_strings):
         return torch.LongTensor(self.category.c2i[np.array(list_of_strings)])
 
+    def save(self, project: Path, src: str):
+        save_dir = self.directory(project, src)
+        self.category.save(save_dir/"category.json")
+        with open(save_dir/"config.json", 'w') as f:
+            f.write(json.dumps({
+                "min_frequency": self.min_frequency,
+            }, indent=2))
+        
+    @classmethod
+    def load(cls, project: Path, src: str):
+        save_dir = cls.directory(project, src)
+        with open(save_dir/"config.json", 'r') as f:
+            config = json.loads(f.read())
+        obj = cls(min_frequency=config["min_frequency"])
+        obj.category = Category.load(save_dir/"category.json")
+        obj.shape = (BATCH_SIZE, len(obj.category))
+        return obj
+
 
 class QuantifyMultiCategory(Quantify):
     """
@@ -183,7 +283,8 @@ class QuantifyMultiCategory(Quantify):
     def __init__(
         self,
         min_frequency: INT(min_=1, max_=20, default=1) = 1,
-        separator: LIST(options=["[None]", ",", ";", "[Space]", "[By Char]"], default=",") = ",",
+        separator: LIST(options=["[None]", ",", ";",
+                        "[Space]", "[By Char]"], default=",") = ",",
     ):
         self.min_frequency = min_frequency
         friendly_mapping = {
@@ -248,6 +349,27 @@ class QuantifyMultiCategory(Quantify):
             arrays.append(array)
         return torch.LongTensor(np.stack(arrays))
 
+    def save(self, project: Path, src: str):
+        save_dir = self.directory(project, src)
+        self.category.save(save_dir/"category.json")
+        with open(save_dir/"config.json", 'w') as f:
+            f.write(json.dumps({
+                "min_frequency": self.min_frequency,
+                "separator": self.separator,
+            }, indent=2))
+
+    @classmethod
+    def load(cls, project: Path, src: str):
+        save_dir = cls.directory(project, src)
+        with open(save_dir/"config.json", 'r') as f:
+            config = json.loads(f.read())
+        obj = cls(
+            min_frequency=config["min_frequency"],
+            separator=config["separator"],
+        )
+        obj.category = Category.load(save_dir/"category.json")
+        return obj
+
 
 class QuantifyNum(Quantify):
     """
@@ -265,3 +387,21 @@ class QuantifyNum(Quantify):
 
     def backward(self, x):
         return x*self.std_+self.mean_
+
+    def save(self, project: Path, src: str):
+        save_dir = self.directory(project, src)
+        with open(save_dir/"config.json", 'w') as f:
+            f.write(json.dumps({
+                "mean": self.mean_,
+                "std": self.std_,
+            }, indent=2))
+    
+    @classmethod
+    def load(cls, project: Path, src: str):
+        save_dir = cls.directory(project, src)
+        with open(save_dir/"config.json", 'r') as f:
+            config = json.loads(f.read())
+        obj = cls()
+        obj.mean_ = config["mean"]
+        obj.std_ = config["std"]
+        return obj
