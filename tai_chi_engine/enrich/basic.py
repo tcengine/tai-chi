@@ -1,7 +1,13 @@
 __all__ = ["Enrich"]
 
+from pathlib import Path
+import json
+from tai_chi_engine.utils import clean_name
+from tai_chi_engine.stateful import Stateful
 
-class Enrich:
+
+class Enrich(Stateful):
+    phase_state = 'enrich'
     """
     Enrich Base Class
     Some default attributes
@@ -18,6 +24,9 @@ class Enrich:
     prefer = None
     lazy = False  # shall we execute enrichment only through the iteration
     src = None  # source column
+
+    # which properties to save to disk
+    stateful_conf = dict()
 
     def __init__(self): pass
 

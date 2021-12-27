@@ -1,6 +1,9 @@
 __all__ = ['EntryModel', 'Empty']
 
 from torch import nn
+from tai_chi_engine.stateful import Stateful
+
+
 class EntryModel(nn.Module):
     is_entry = True
     
@@ -22,3 +25,4 @@ class Empty(EntryModel):
     def from_quantify(cls,
         quantify):
         return cls()
+

@@ -4,6 +4,7 @@ from .basic import Enrich
 from tai_chi_tuna.front.typer import STR, LIST
 from pathlib import Path
 from PIL import Image
+import json
 
 class EnrichImage(Enrich):
     """
@@ -12,8 +13,10 @@ class EnrichImage(Enrich):
     prefer = "QuantifyImage"
     typing = Image
     lazy = True
-    
-
+    stateful_dict = dict(
+        convert="str",
+        size="list",
+    )
     def __init__(
         self, convert: STR("RGB") = "RGB",
         size: LIST(options=[28, 128, 224, 256, 512], default=224) = 224,
