@@ -13,16 +13,19 @@ class TransformerEncoder(EntryModel):
         self.model = model
         self.encoder_mode = encoder_mode
 
+    def reduce_hidden_state(self, vec, attention_mask):
+        """
+        Mean pooling over the hidden state according to attention_mask
+        """
+        vec = vec*(attention_mask[...,None])
+        return vec.sum(dim=1)/(attention_mask.sum(-1)[...,None])
+
     def forward(self, kwargs):
         outputs = self.model(**kwargs)
         if self.encoder_mode:
             # output vector
-            if "pooler_output" in outputs:
-                return outputs.pooler_output
-            else:
-                return (
-                    outputs.last_hidden_state*kwargs['attention_mask'][:,:,None]
-                ).mean(1)
+            return self.reduce_hidden_state(
+                outputs.last_hidden_state, kwargs["attention_mask"])
         return outputs
 
     @classmethod
