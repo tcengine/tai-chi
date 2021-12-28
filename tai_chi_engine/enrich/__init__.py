@@ -1,5 +1,7 @@
 __all__ = ["EnrichImage", "ParentAsLabel", "ENRICHMENTS"]
 
+
+from .basic import EnrichCleanTyping
 from .file import (
     EnrichImage, ParentAsLabel
     )
@@ -7,4 +9,5 @@ from .file import (
 ENRICHMENTS = dict(
     EnrichImage=EnrichImage,
     ParentAsLabel=ParentAsLabel,
+    CleanData=EnrichCleanTyping
 )

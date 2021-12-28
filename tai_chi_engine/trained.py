@@ -29,7 +29,11 @@ class TaiChiTrained:
         self.device = torch.device(device)
 
     def __repr__(self):
-        return f"Project: {self.project}"
+        return f"[☯️ Project: {self.project}]\n" +\
+            "\tmodel:\tself.final_model\n" +\
+            "\tquantify:\tself.qdict\n" +\
+            f"\tx_columns:\t{self.x_columns}\n" +\
+            f"\ty_columns:\t{self.y_columns}\n"
 
     @property
     def best_checkpoint(self,):
@@ -53,8 +57,8 @@ class TaiChiTrained:
     def predict(self, data):
         tensor_data = self.to_tensor(data)
         with torch.no_grad():
-            pred = self.final_model(tensor_data).to("cpu")
-        return pred
+            pred = self.final_model.eval_forward(tensor_data)
+        return self.y_quantify.backward(pred[0])
 
     def load_things(self):
         module_zoo = {"all_entry": ALL_ENTRY, "all_exit": ALL_EXIT}
@@ -75,3 +79,9 @@ class TaiChiTrained:
         self.x_columns = list(
             quantify['src']
             for quantify in self.phase['quantify'] if quantify['x'])
+
+        self.y_columns = list(
+            quantify['src']
+            for quantify in self.phase['quantify'] if quantify['x']==False)
+
+        self.y_quantify = self.qdict[self.y_columns[0]]

@@ -50,6 +50,12 @@ class Quantify(Stateful):
         else:
             return self.__class__.__name__
 
+    def backward(self, x):
+        """
+        convert tensor back to the original data
+        """
+        return x
+
 
 class QuantifyImage(Quantify):
     stateful_conf = dict(
@@ -204,6 +210,15 @@ class QuantifyCategory(Quantify):
     def __call__(self, list_of_strings):
         return torch.LongTensor(self.category.c2i[np.array(list_of_strings)])
 
+    def backward(self, array):
+        """
+        Reconstruct a row of data
+        """
+        array = array.cpu().numpy()
+        df = pd.DataFrame(dict(category=self.category.i2c, score = array))
+        df = df.sort_values(by='score', ascending=False).reset_index(drop=True)
+        return df
+
 
 class QuantifyMultiCategory(Quantify):
     stateful_conf = dict(
@@ -287,6 +302,15 @@ class QuantifyMultiCategory(Quantify):
             arrays.append(array)
         return torch.LongTensor(np.stack(arrays))
 
+    def backward(self, array):
+        """
+        Reconstruct a row of prediction to categorical information
+        """
+        array = array.cpu().numpy()
+        df = pd.DataFrame(dict(category=self.category.i2c, score = array))
+        df = df.sort_values(by='score', ascending=False).reset_index(drop=True)
+        return df
+
 
 class QuantifyNum(Quantify):
     stateful_conf = dict(
@@ -307,4 +331,7 @@ class QuantifyNum(Quantify):
         return (torch.FloatTensor(list_of_num)[:, None]-self.mean_)/self.std_
 
     def backward(self, x):
-        return x*self.std_+self.mean_
+        """
+        Reconstruct the value to the scale of the original data
+        """
+        return (x*self.std_+self.mean_).cpu().numpy()

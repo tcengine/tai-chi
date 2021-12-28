@@ -1,6 +1,8 @@
 __all__ = ["ExitModel", "RegressionTop"]
 
 from torch import nn
+import numpy as np
+
 
 class ExitModel(nn.Module):
     metric_funcs = dict()
@@ -15,11 +17,21 @@ class ExitModel(nn.Module):
             metrics.update({k: func(y_, y)})
         return dict(loss=loss, y_=y_, **metrics)
 
+    def eval_forward(self, x) -> np.ndarray:
+        """
+        Forward pass for 
+        """
+        y_ = self(x)
+        if hasattr(self, "activation"):
+            y_ = self.activation(y_)
+        return y_
+
     @classmethod
     def from_quantify(cls, ):
         raise ImportError(
             f"Please define class function 'from_quantify' for {cls.__name__}"
         )
+
 
 class RegressionTop(ExitModel):
     prefer = "MSELoss"
