@@ -2,6 +2,7 @@ __all__ = ["ExitModel", "RegressionTop"]
 
 from torch import nn
 import numpy as np
+from .metric import MeanAbsoluteError
 
 
 class ExitModel(nn.Module):
@@ -13,8 +14,13 @@ class ExitModel(nn.Module):
         metrics = dict()
         if hasattr(self, "activation"):
             y_ = self.activation(y_)
+        # calculate metrics key by key
         for k, func in self.metric_funcs.items():
-            metrics.update({k: func(y_, y)})
+            metric = func(y_, y)
+            if hasattr(metric, "keys"):
+                metrics.update(metric)
+            else:
+                metrics[k] = metric
         return dict(loss=loss, y_=y_, **metrics)
 
     def eval_forward(self, x) -> np.ndarray:
@@ -42,6 +48,10 @@ class RegressionTop(ExitModel):
         self.top = nn.Linear(
             in_features=in_features, out_features=out_features)
         self.crit = nn.MSELoss()
+        self.metric_funcs.update(
+            {
+                "mae": MeanAbsoluteError(),
+            })
 
     def forward(self, x):
         return self.top(x)
