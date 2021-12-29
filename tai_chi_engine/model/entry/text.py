@@ -35,8 +35,16 @@ class TransformerEncoder(EntryModel):
         name: STR(default="bert-base-uncased") = 'bert-base-uncased',
         encoder_mode: BOOL(default=True) = True,
     ):
-        from transformers import AutoModel
-        model = AutoModel.from_pretrained(name)
+        # load transformer for inference
+        if quantify.is_inference:
+            from transformers import AutoConfig, AutoModel
+            config = AutoConfig.from_pretrained(name)
+            model = AutoModel.from_config(config)
+        # load transformer for training
+        else:
+            from transformers import AutoModel
+            model = AutoModel.from_pretrained(name)
+        # substatiate the transformer model
         obj = cls(model)
         obj.name = name
         obj.encoder_mode = encoder_mode

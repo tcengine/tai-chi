@@ -8,7 +8,7 @@ class EntryModel(nn.Module):
     is_entry = True
     
     @classmethod
-    def from_quantify(cls, ):
+    def from_quantify(cls, quantify):
         raise ImportError(
             f"Please define class function 'from_quantify' for {cls.__name__}"
         )

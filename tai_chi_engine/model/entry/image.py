@@ -40,7 +40,12 @@ class ImageConvEncoder(EntryModel):
         name: LIST(options=list(
             RESNET_OPTIONS.keys()), default="resnet18"),
     ):
-        model = RESNET_OPTIONS[name](pretrained=True, progress=True,)
+        # do not load pretrained for inference
+        if quantify.is_inference:
+            model = RESNET_OPTIONS[name](pretrained=False)
+        # load pretrained for transfer learning
+        else:
+            model = RESNET_OPTIONS[name](pretrained=True, progress=True,)
         obj = cls(model)
         obj.name = name
         return obj

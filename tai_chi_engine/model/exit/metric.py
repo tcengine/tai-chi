@@ -45,9 +45,10 @@ class F1Score(Metric):
         rec = recall(y_, y)
         prec = precision(y_, y)
         denomenator = (rec + prec)
-        if denomenator == 0:
-            f1 = 0.
-        f1 = 2*rec*prec/denomenator
+        if denomenator <= 0.:
+            f1 = denomenator
+        else:
+            f1 = (2*rec*prec)/denomenator
         return dict(f1=f1, rec=rec, prec=prec)
 
 class MeanAbsoluteError(Metric):
