@@ -37,5 +37,11 @@ Good to go!
 pip install tai-chi-engine
 ```
 
+## Run App on Trained Model
+You can build prototype App (Based on [streamlit](https://streamlit.io/)) based on trained project, see [app](./app) part of this library.
+
+ALL kinds of projects, **one way** and **one line** to start the app.
+
+
 ## Links
 * The github repository is [here](https://github.com/unpackAI/tai-chi)
