@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+test/phases/*/checkpoints
+test/phases/*/csv_log
+test/phases/*/tensorboard

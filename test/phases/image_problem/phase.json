@@ -1,0 +1,75 @@
+{
+  "enrich": [
+    {
+      "src": "path",
+      "dst": "image",
+      "kwargs": {
+        "convert": "RGB",
+        "size": 224
+      },
+      "enrich": "EnrichImage"
+    },
+    {
+      "src": "path",
+      "dst": "label",
+      "kwargs": {},
+      "enrich": "ParentAsLabel"
+    }
+  ],
+  "quantify": [
+    {
+      "src": "image",
+      "x": true,
+      "kwargs": {
+        "mean_": "imagenet",
+        "std_": "imagenet"
+      },
+      "quantify": "QuantifyImage"
+    },
+    {
+      "src": "label",
+      "x": false,
+      "kwargs": {
+        "min_frequency": 1
+      },
+      "quantify": "QuantifyCategory"
+    }
+  ],
+  "batch_level": {
+    "valid_ratio": 0.1,
+    "batch_size": 32,
+    "shuffle": true,
+    "num_workers": 0
+  },
+  "x_models": {
+    "image": {
+      "model_name": "ImageConvEncoder",
+      "src": "image",
+      "kwargs": {
+        "name": "resnet18"
+      }
+    }
+  },
+  "y_models": {
+    "label": {
+      "model_name": "CategoryTop",
+      "src": "label",
+      "kwargs": {
+        "hidden_size": 256
+      }
+    }
+  },
+  "task_slug": "image_to_label",
+  "param_groups": {
+    "entry_dict|[ALL]": {
+      "freeze": false,
+      "lr": "1e-5",
+      "weight_decay": 0.0
+    },
+    "exit_part|[ALL]": {
+      "freeze": false,
+      "lr": "1e-3",
+      "weight_decay": 0.0
+    }
+  }
+}
