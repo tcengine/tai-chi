@@ -31,7 +31,6 @@ import sphinx_rtd_theme
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-from tai_chi_engine import TaiChiTrained
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
@@ -57,6 +56,8 @@ master_doc = 'index'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+import sys
+import os
 sys.path.append(os.path.abspath('_themes'))
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme = "sphinx_rtd_theme"
