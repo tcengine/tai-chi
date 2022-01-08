@@ -18,7 +18,7 @@
 * If you're a **coding muggle** - play with the engine, you'll understand ideas around Deep Learning, and have good model.
 * If you're a **pro** - it's still wildly fun to try new models in 2 minutes' click, especially you have around a dozen columns.
 
-## Playing Tai-Chi
+## Playing Tai-Chi Engine
 First, tell me you are already in a jupyter notebook environment.
 
 Open up a table, a pandas dataframe, from excel or from csv file or from SQL database, dosn't matter.
