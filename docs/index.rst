@@ -8,6 +8,10 @@ Tai-Chi Engine!
 
 An imaginative deep learning for the civilians.
 
+.. image:: imgs/tai_chi_engine_start.png
+    :width: 800px
+    :alt: tai_chi_engine_start
+
 Installation
 ------------------------------------------
 Install the latest version of the Tai-Chi Engine using pypi::
@@ -25,6 +29,7 @@ Modules
    :maxdepth: 1
 
    prepare
+   tutorial
    trained
 
 Indices and tables
