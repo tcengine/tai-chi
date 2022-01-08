@@ -4,11 +4,13 @@
 ![Python version](https://img.shields.io/pypi/pyversions/tai-chi-engine)
 ![License](https://img.shields.io/github/license/unpackai/tai-chi)
 ![PyPI Downloads](https://img.shields.io/pypi/dm/tai-chi-engine)
-[![Docs](https://readthedocs.org/projects/tai-chi-engine/badge/?version=latest)](tai-chi-engine.rtfd.io)
+[![Docs](https://readthedocs.org/projects/tai-chi-engine/badge/?version=latest)](https://tai-chi-engine.readthedocs.io/en/latest/)
 
 > Powerful deep learning for civilians
 
 > ```太极引擎```  深度学习： 强大、多模态、灵活、平民化
+
+> See [Documentation](https://tai-chi-engine.readthedocs.io/en/latest/) 看文档
 
 ## Essence of the Tai-Chi Engine
 * Close to state-of-the-art Deep learning, friendly to office folks, all coding-free, clicks away.
