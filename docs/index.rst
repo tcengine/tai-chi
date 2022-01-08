@@ -6,9 +6,20 @@
 Tai-Chi Engine!
 ==========================================
 
+An imaginative deep learning for the civilians.
+
+Installation
+------------------------------------------
+Install the latest version of the Tai-Chi Engine using pypi::
+   
+      pip install tai-chi-engine
+
+Modules
+------------------------------------------
+
 .. toctree::
    :maxdepth: 1
-   
+
    trained
 
 Indices and tables

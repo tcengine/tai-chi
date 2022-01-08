@@ -21,8 +21,18 @@ project = 'Tai-Chi Engine'
 copyright = '2022, Xiaochen Zhang'
 author = 'Xiaochen Zhang'
 
+def reading_version():
+    """
+    Read the version from the version file
+    """
+    with open("../settings.ini", "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            if "version" in line:
+                return line.split("=")[1].strip()
+
 # The full version, including alpha/beta/rc tags
-release = "0.0.7"
+release = reading_version()
 
 import sphinx_rtd_theme
 
