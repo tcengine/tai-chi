@@ -22,12 +22,14 @@ copyright = '2022, Xiaochen Zhang'
 author = 'Xiaochen Zhang'
 
 # The full version, including alpha/beta/rc tags
+import sys, os
+sys.path.insert(0, os.path.abspath('..'))
+
+import tai_chi_engine
 from tai_chi_engine import __version__
 release = __version__
 
-import sys, os
 import sphinx_rtd_theme
-sys.path.insert(0, os.path.abspath('..'))
 
 # -- General configuration ---------------------------------------------------
 
