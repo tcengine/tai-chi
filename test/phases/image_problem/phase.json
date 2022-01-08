@@ -37,7 +37,7 @@
   ],
   "batch_level": {
     "valid_ratio": 0.1,
-    "batch_size": 32,
+    "batch_size": 9,
     "shuffle": true,
     "num_workers": 0
   },
