@@ -1,4 +1,10 @@
 # Tai-Chi Engine
+
+[![PyPI version](https://img.shields.io/pypi/v/tai-chi-engine)](https://pypi.org/project/tai-chi-engine/)
+![Python version](https://img.shields.io/pypi/pyversions/tai-chi-engine)
+![License](https://img.shields.io/github/license/unpackai/tai-chi-engine)
+![PyPI Downloads](https://img.shields.io/pypi/dm/tai-chi-engine)
+
 > Powerful deep learning for civilians
 
 > ```太极引擎```  深度学习： 强大、多模态、灵活、平民化

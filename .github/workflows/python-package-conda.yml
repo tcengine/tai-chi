@@ -7,15 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [3.7, 3.8]
+        python: [3.7, "3.10"]
         os: [ubuntu-latest]
-        # include:
-        # - python: 3.9
-        #   os: macos-latest
-        #   experimental: true
-        # - python: 3.7
-        #   os: windows-latest
-        #   experimental: true
+        include:
+        - python: 3.8
+          os: macos-latest
+          experimental: true
+        - python: 3.9
+          os: windows-latest
+          experimental: true
 
     steps:
     - uses: actions/checkout@v2
