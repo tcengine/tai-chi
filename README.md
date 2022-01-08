@@ -4,6 +4,7 @@
 ![Python version](https://img.shields.io/pypi/pyversions/tai-chi-engine)
 ![License](https://img.shields.io/github/license/unpackai/tai-chi)
 ![PyPI Downloads](https://img.shields.io/pypi/dm/tai-chi-engine)
+[![Docs](https://readthedocs.org/projects/tai-chi-engine/badge/?version=latest)](tai-chi-engine.rtfd.io)
 
 > Powerful deep learning for civilians
 

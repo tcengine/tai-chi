@@ -17,6 +17,7 @@ We can load a trained model from a project directory you've saved::
         .. automethod:: __init__
 
 We can also load it for GPU inference::
+
     trained = tce.TaiChiTrained(PROJECT_DIR, device='cuda:0')
 
 Inference in python
@@ -48,6 +49,14 @@ Start a streamlit app to demonstrate your prototype::
     # You'll have to pick a trained project folder, and assign a port
     tc_app = StartStreamLit("./project_directory", port = 8501)
     tc_app.start()
+
+Then you can see some thing like following on your browser::
+
+    http://localhost:8501/
+
+.. image:: imgs/st_eg1.png
+    :width: 600px
+    :alt: Streamlit Deployment
 
 Stop the streamlit app by doing ::
 

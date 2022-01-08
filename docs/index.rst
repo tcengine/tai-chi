@@ -14,12 +14,17 @@ Install the latest version of the Tai-Chi Engine using pypi::
    
       pip install tai-chi-engine
 
+Crying for help
+------------------------------------------
+Currently this library really needs help, visit our `github <https://github.com/unpackai/tai-chi>`_ to join all the fun
+
 Modules
 ------------------------------------------
 
 .. toctree::
    :maxdepth: 1
 
+   prepare
    trained
 
 Indices and tables
