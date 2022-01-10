@@ -13,7 +13,7 @@ You can simply do::
 
     pip install tai-chi-engine
 
-If this is not happening, try install the package from source:
+If this is not happening, try install the package from source::
 
     pip install git+https://github.com/unpackai/tai-chi.git
 
