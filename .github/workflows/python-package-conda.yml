@@ -3,9 +3,9 @@ name: Python Package using Conda
 on:
   push:
     paths-ignore:
-      - docs
-      - README.md
-      - nbs
+      - 'docs/**'
+      - '**.md'
+      - '**.ipynb'
 
 jobs:
   build-linux:
