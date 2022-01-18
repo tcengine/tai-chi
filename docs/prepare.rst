@@ -15,6 +15,6 @@ You can simply do::
 
 If this is not happening, try install the package from source::
 
-    pip install git+https://github.com/unpackai/tai-chi.git
+    pip install git+https://github.com/tcengine/tai-chi.git
 
 

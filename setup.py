@@ -58,7 +58,7 @@ setuptools.setup(
     long_description=Path("README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
     project_urls={
-        "Documentation": "https://github/unpackai/tai-chi/",
-        "Tracker": "https://github.com/unpackAI/tai-chi/issues",
+        "Documentation": "https://tai-chi-engine.readthedocs.io/",
+        "Tracker": "https://github.com/tcengine/tai-chi/issues",
     },
 )

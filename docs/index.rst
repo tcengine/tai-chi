@@ -20,7 +20,7 @@ Install the latest version of the Tai-Chi Engine using pypi::
 
 Crying for help
 ------------------------------------------
-Currently this library really needs help, visit our `github <https://github.com/unpackai/tai-chi>`_ to join all the fun
+Currently this library really needs help, visit our `github <https://github.com/tcengine/tai-chi>`_ to join all the fun
 
 Modules
 ------------------------------------------

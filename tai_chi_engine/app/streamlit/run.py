@@ -133,7 +133,7 @@ def build_app(project: Path):
     # build title
     st.markdown(f"""
     ## A Tai-Chi Engine Model:
-    > Trained with [Tai-Chi Engine](https://github.com/unpackai/tai-chi)
+    > Trained with [Tai-Chi Engine](https://github.com/tcengine/tai-chi)
     """)
     st.write(f'Task: {slug}')
 
