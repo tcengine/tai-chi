@@ -30,7 +30,7 @@ class LoadCategory(StateType):
         return f"{self.filename}"
 
     def load(self, save_dir, value):
-        from forgebox.category import Category
+        from category import Category
         return Category.load(save_dir/value)
 
     def save(self, save_dir, value) -> str:

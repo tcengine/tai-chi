@@ -8,7 +8,7 @@ from tai_chi_tuna.flow.to_quantify import (
     BATCH_SIZE, SEQUENCE_SIZE, IMAGE_SIZE)
 from tai_chi_engine.stateful import Stateful
 
-from forgebox.category import Category
+from category import Category
 from typing import List
 import numpy as np
 import pandas as pd
