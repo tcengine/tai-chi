@@ -1,0 +1,58 @@
+{
+  "enrich": [
+    {
+      "src": "image_path",
+      "dst": "image",
+      "kwargs": {
+        "convert": "RGB",
+        "size": 224
+      },
+      "enrich": "EnrichImage"
+    }
+  ],
+  "quantify": [
+    {
+      "src": "image",
+      "x": true,
+      "kwargs": {
+        "mean_": "imagenet",
+        "std_": "imagenet"
+      },
+      "quantify": "QuantifyImage"
+    },
+    {
+      "src": "Genre",
+      "x": false,
+      "kwargs": {
+        "min_frequency": 1,
+        "separator": ";"
+      },
+      "quantify": "QuantifyMultiCategory"
+    }
+  ],
+  "batch_level": {
+    "valid_ratio": 0.1,
+    "batch_size": 32,
+    "shuffle": true,
+    "num_workers": 0
+  },
+  "x_models": {
+    "image": {
+      "model_name": "ImageConvEncoder",
+      "src": "image",
+      "kwargs": {
+        "name": "resnet34"
+      }
+    }
+  },
+  "y_models": {
+    "Genre": {
+      "model_name": "MultiCategoryTop",
+      "src": "Genre",
+      "kwargs": {
+        "hidden_size": 0
+      }
+    }
+  },
+  "task_slug": "image_to_Genre"
+}
