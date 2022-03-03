@@ -22,9 +22,6 @@ def df_creator_image_folder(path: Path) -> pd.DataFrame:
 def join_col_list(Columns):
     return ",".join(map(lambda x:f"'{x['src']}'", Columns))
 
-def join_col_list(Columns):
-    return ",".join(map(lambda x:f"'{x['src']}'", Columns))
-
 class Narrator:
     """
     Under jupyter notebook: 

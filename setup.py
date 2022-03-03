@@ -38,6 +38,15 @@ requirements = cfg.get("requirements", "").split()
 min_python = cfg["min_python"]
 comp_version = py_versions[py_versions.index(min_python):]
 
+with open('tai_chi_engine/__init__.py', 'r') as f:
+    lines = f.readlines()
+
+with open('tai_chi_engine/__init__.py', 'w') as f:
+    version = cfg["version"]
+    first_line = f'__version__ = "{version}"\n'
+    f.write(first_line)
+    for line in lines[1:]:
+        f.write(line)
 
 setuptools.setup(
     name=cfg["lib_name"],
