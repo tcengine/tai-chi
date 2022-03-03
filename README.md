@@ -5,6 +5,8 @@
 ![License](https://img.shields.io/github/license/tcengine/tai-chi)
 ![PyPI Downloads](https://img.shields.io/pypi/dm/tai-chi-engine)
 [![Docs](https://readthedocs.org/projects/tai-chi-engine/badge/?version=latest)](https://tai-chi-engine.readthedocs.io/en/latest/)
+[![Test](https://github.com/tcengine/tai-chi/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/tcengine/tai-chi/actions/workflows/python-package-conda.yml)
+[![pypi build](https://github.com/tcengine/tai-chi/actions/workflows/publish.yml/badge.svg)](https://github.com/tcengine/tai-chi/actions/workflows/publish.yml)
 
 > Powerful deep learning for civilians
 
