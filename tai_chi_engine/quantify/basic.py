@@ -7,15 +7,13 @@ from tai_chi_tuna.front.typer import STR, INT, BOOL, LIST
 from tai_chi_tuna.flow.to_quantify import (
     BATCH_SIZE, SEQUENCE_SIZE, IMAGE_SIZE)
 from tai_chi_engine.stateful import Stateful
+from tai_chi_engine.teacher import EngineTeacher
 
 from category import Category
 from typing import List
 import numpy as np
 import pandas as pd
 import torch
-import json
-from pathlib import Path
-
 
 class Quantify(Stateful):
     phase_state = "quantify"
@@ -169,6 +167,7 @@ class QuantifyText(Quantify):
         )
 
 
+@EngineTeacher(html_path="single_category.html")
 class QuantifyCategory(Quantify):
     stateful_conf = dict(
         category='category',
@@ -220,6 +219,7 @@ class QuantifyCategory(Quantify):
         return df
 
 
+@EngineTeacher(html_path="multi_category.html")
 class QuantifyMultiCategory(Quantify):
     stateful_conf = dict(
         category='category',
