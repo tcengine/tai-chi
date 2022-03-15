@@ -1,0 +1,9 @@
+<h4>Quantify Image</h4>
+<p>Transform Image into tensor (hyper dimentional matrix)</p>
+<p>Image will be in 3 color channels, and normalize at this step</p>
+<p>The orignal value is a float ranging from 0.0 to 1.0, eg if a pixel is (
+    <span style="color:red">0.99</span>, <span style="color:green">0.1</span> , 
+    <span style="color:blue">0.99</span> ), means we have a lots of red and blue but very little green,
+    the color will be <span style="color:rgb(255,25,255)">like this </span></p>
+<p><strong>Normalize</strong> will shift the value to cluster around 0.0, using mean and std(standard deviation) for each color channel.</p>
+<p>The value will mostly be in range (-1.0, 1.0) for each color channel after normalization</p>

@@ -55,6 +55,7 @@ class Quantify(Stateful):
         return x
 
 
+@EngineTeacher(html_path="image_quantify.html")
 class QuantifyImage(Quantify):
     stateful_conf = dict(
         mean_='list',
@@ -105,6 +106,7 @@ class QuantifyImage(Quantify):
             self.transform(img) for img in list_of_image))
 
 
+@EngineTeacher(html_path="text.html")
 class QuantifyText(Quantify):
     stateful_conf = dict(
         pretrained='str',
